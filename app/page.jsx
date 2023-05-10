@@ -104,8 +104,9 @@ export default function Home() {
                     label: "Expenses",
                     data: expenses.map((expense) => expense.total),
                     backgroundColor: expenses.map((expense) => expense.color),
-                    borderColor: ["#18181b"],
-                    borderWidth: 5,
+                    hoverOffset: 20,
+                    borderWidth: 0,
+                    spacing: 5,
                   },
                 ],
               }}
