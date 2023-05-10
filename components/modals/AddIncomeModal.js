@@ -1,5 +1,6 @@
 import { useRef, useEffect, useContext } from "react";
 import { currencyFormatter } from "@/lib/utils";
+import { toast } from "react-toastify";
 
 import { financeContext } from "@/lib/store/finance-context";
 
@@ -13,6 +14,7 @@ function AddIncomeModal({ show, onClose }) {
   const descriptionRef = useRef();
   const { income, addIncomeItem, removeIncomeItem } =
     useContext(financeContext);
+  const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
   // Handler Functions
   const addIncomeHandler = async (e) => {
@@ -28,16 +30,20 @@ function AddIncomeModal({ show, onClose }) {
       await addIncomeItem(newIncome);
       descriptionRef.current.value = "";
       amountRef.current.value = "";
+      toast.success("Income added successfully!");
     } catch (error) {
       console.log(error.message);
+      toast.error(error.message);
     }
   };
 
   const deleteIncomeEntryHandler = async (incomeId) => {
     try {
       await removeIncomeItem(incomeId);
+      toast.success("Income deleted successfully!");
     } catch (error) {
       console.log(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -81,7 +87,7 @@ function AddIncomeModal({ show, onClose }) {
             <div className="flex justify-between item-center" key={i.id}>
               <div>
                 <p className="font-semibold">{i.description}</p>
-                <small className="text-xs">{i.createdAt.toISOString()}</small>
+                <small className="text-xs">{i.createdAt.toLocaleDateString('en-UK', dateOptions)}</small>
               </div>
               <p className="flex items-center gap-2">
                 {currencyFormatter(i.amount)}
