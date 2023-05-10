@@ -7,6 +7,7 @@ import { currencyFormatter } from "@/lib/utils";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 function ViewExpenseModal({ show, onClose, expense }) {
+  const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const { deleteExpenseItem, deleteExpenseCategory } =
     useContext(financeContext);
 
@@ -51,8 +52,9 @@ function ViewExpenseModal({ show, onClose, expense }) {
             <div key={item.id} className="flex items-center justify-between">
               <small>
                 {item.createdAt.toMillis
-                  ? new Date(item.createdAt.toMillis()).toISOString()
-                  : item.createdAt.toISOString()}
+                  ? new Date(item.createdAt.toMillis()).toLocaleDateString('en-UK', dateOptions)
+                  : item.createdAt.toLocaleDateString('en-UK', dateOptions)
+                }
               </small>
               <p className="flex items-center gap-2">
                 {currencyFormatter(item.amount)}
